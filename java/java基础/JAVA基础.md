@@ -1648,3 +1648,420 @@ Arrays.sort(myArray,(Integer o1, Integer o2) -> {
 ```
 
 ![image-20241122160747787](./image-20241122160747787.png)
+
+#### 10.3 单列结合
+
+![image-20241127164744821](./image-20241127164744821.png)
+
+![image-20241127164819119](./image-20241127164819119.png)
+
+```java
+红色的是接口，蓝色的类，list集合添加元素是有序，可重复，有索引的，set系列集合添加的元素是无序的，不能够重复，无索引
+```
+
+![image-20241127164959159](./image-20241127164959159.png)
+
+```java
+package listpra;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+public class pra1 {
+    public static void main(String[] args) {
+        // collection是一个接口，不能够直接创建对象
+        Collection<String> coll = new ArrayList<String>();
+        // 细节一：向lsit系列结合中添加数据，那么方法永远返回true
+        // 细节二：向set系列集合中添加数据如果数据不存在则返回true，如果存在则返回false
+        coll.add("A");
+        System.out.println(coll);
+        // 清空
+        coll.clear();
+        // 删除
+        // 删除成功返回true错误返回false
+        System.out.println(coll.remove("A"));
+        // 判断元素是否包含
+        // 同理底层依靠equals
+        System.out.println(coll.contains("A"));
+        //判断是否为空
+        bool a = coll.isEmpty()
+    }
+}
+```
+
+#### 10.4 迭代器
+
+![image-20241127170303757](./image-20241127170303757.png)
+
+![image-20241127170607897](./image-20241127170607897.png)
+
+```java
+package listpra;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+
+public class pra2 {
+    public static void main(String[] args) {
+        Collection<String> coll = new ArrayList<>();
+        coll.add("AAA");
+        coll.add("BBB");
+        coll.add("CCC");
+        coll.add("DDD");
+
+        Iterator<String> iter = coll.iterator();
+        while(iter.hasNext()) {
+            // 获取元素移动指针
+            String str = iter.next();
+            System.out.println(str);
+        }
+    }
+}
+```
+
+![image-20241127170905996](./image-20241127170905996.png)
+
+```java
+第四条如果要删除  使用迭代器提供的remove方法  it.remove()
+```
+
+#### 10.5 增强for遍历
+
+![image-20241127171517548](./image-20241127171517548.png)
+
+```java
+只能是单列集合
+package listpra;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+
+public class pra3 {
+    public static void main(String[] args) {
+        Collection<String> coll = new ArrayList<>();
+        coll.add("AAA");
+        coll.add("BBB");
+        coll.add("CCC");
+        coll.add("DDD");
+        for (String str : coll) {
+            System.out.println(str);
+        }
+    }
+}
+```
+
+```java
+package listpra;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+
+public class pra3 {
+    public static void main(String[] args) {
+        Collection<String> coll = new ArrayList<>();
+        coll.add("AAA");
+        coll.add("BBB");
+        coll.add("CCC");
+        coll.add("DDD");
+        for (String str : coll) {
+            str = "qqq";
+            System.out.println(str);
+        }
+        System.out.println(coll);
+    }
+}
+// 集合当中数据并没有改变，增强for中变量只是for中变量，并不会改变原来集合的数据
+```
+
+#### 10.6 增强lambda遍历
+
+![image-20241127172225163](./image-20241127172225163.png)
+
+```java
+package listpra;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.function.Consumer;
+
+public class pra3 {
+    public static void main(String[] args) {
+        Collection<String> coll = new ArrayList<>();
+        coll.add("AAA");
+        coll.add("BBB");
+        coll.add("CCC");
+        coll.add("DDD");
+        coll.forEach(System.out::println);
+        coll.forEach( s -> System.out.println(s));
+        coll.forEach((String s) -> {
+                System.out.println(s);
+            }
+        );
+    }
+}
+```
+
+#### 10.7 List集合
+
+![image-20241127172759841](./image-20241127172759841.png)
+
+```JAVA
+package listpra;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class par4 {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<String>();
+        list.add(0,"A");
+        list.add(1,"B");
+        list.add(1,"C");
+        list.add(1,"D");
+        System.out.println(list);
+        String remo = list.remove(0);
+        System.out.println(remo);
+        System.out.println(list);
+    }
+}
+
+当集合中是Integer类型的时候，会优先调用根据索引删除元素的方法，因为方法的重载，会优先调用形参类型一致的方法
+package listpra;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class par4 {
+    public static void main(String[] args) {
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(4);
+        list.add(5);
+        list.remove(1);
+        System.out.println(list);
+    }
+}
+
+// 手动装箱，转换数据类型
+package listpra;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class par4 {
+    public static void main(String[] args) {
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(4);
+        list.add(5);
+//        list.remove(1);
+        Integer i = Integer.valueOf("1");
+        list.remove(i);
+        System.out.println(list);
+    }
+}
+
+
+package listpra;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class par4 {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<String>();
+        list.add(0,"A");
+        list.add(1,"B");
+        list.add(1,"C");
+        list.add(1,"D");
+        String info = list.set(0,"1111");
+        String info2 = list.get(1);
+        System.out.println(info+" "+info2);
+        System.out.println(list);
+    }
+}
+```
+
+##### 10.7.1 List集合的遍历方式(五种和上面的使用方法一样)
+
+![image-20241127174159074](./image-20241127174159074.png)
+
+列表的迭代器
+
+```java
+package listpra;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+
+public class pra5 {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<String>();
+        list.add(0,"A");
+        list.add(1,"bbb");
+        list.add(1,"C");
+        list.add(1,"D");
+        ListIterator<String> it = list.listIterator();
+        while (it.hasNext()) {
+            String str = it.next();
+            if ("bbb".equals(str)) {
+                it.add("qqq");
+            }
+        }
+        System.out.println(list);
+    }
+}
+```
+
+#### 10.8 LinkedList
+
+![image-20241130194111139](./image-20241130194111139.png)
+
+```java
+LinkedList特有的方法
+```
+
+#### 10.9 泛型类，泛型方法，泛型接口
+
+##### 泛型类
+
+```java
+只能支持引用数据类型
+```
+
+![image-20241130194337777](./image-20241130194337777.png)
+
+```java
+package listpra;
+
+import java.util.ArrayList;
+
+public class pra6 {
+    public static void main(String[] args) {
+        ArrayList list = new ArrayList();
+        list.add("A");
+        list.add(1);
+        list.add("B");
+        System.out.println(list);
+    }
+}
+
+
+// 有问题当调用子类方法的时候，有的是整数，有的是字符串，就会出现问题，而且多态不能访问子类对象
+// 多态当中不能使用子类的功能
+
+ArrayList<String> list = new ArrayList<>(); 
+// 就保证集合当中全是字符串
+```
+
+![image-20241130195531420](./image-20241130195531420.png)
+
+![image-20241130195735155](./image-20241130195735155.png)
+
+```java
+ArrayList<E>  此处E可以理解为变量，但是不是用来记录数据的，而是记录数据的类型，可以写成.......
+    
+package listpra;
+
+import java.util.Arrays;
+
+public class MyArraylist<E> {
+    Object[] obj  =new Object[10];
+    int size;
+
+    /*
+    E 表示不确定的类型，该类型在类名后面已经定义过了
+     */
+    public boolean add(E e){
+        obj[size]=e;
+        size++;
+        return true;
+    }
+
+    public E get(int index){
+        return (E)obj[index];
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.toString(obj);
+    }
+}
+```
+
+##### 泛型方法
+
+![image-20241130201241453](./image-20241130201241453.png)
+
+![image-20241130201252377](./image-20241130201252377.png)
+
+```java
+1 类名后面定义的泛型
+2 方法前面定义的泛型
+    
+package listpra;
+
+import java.util.ArrayList;
+
+public class ListUtil {
+    public ListUtil() {}
+
+    public static<E> void addAll(ArrayList<E> list){
+
+    }
+        
+    public static<E> void addAll(ArrayList<E> list,E...e){   //E...e底层是一个数组
+        for (E element : e){list.add(element)}
+    }
+}
+// 泛型方法是方法被调用的时候属性就被确定了
+```
+
+##### 泛型接口
+
+![image-20241130202830972](./image-20241130202830972.png)
+
+```java
+1 实现类给出具体的类型，之后就只能使用这个类型
+2 实现延续泛型，创建对象的时候在确定
+```
+
+##### 泛型的通配符
+
+![image-20241130203221689](./image-20241130203221689.png)
+
+```java
+泛型不具备继承性 method调用 list2 list3 的时候会报错，因为泛型不具备继承 
+```
+
+![](./image-20241130203612339.png)
+
+```java
+? extends E 表示可以传递E或者E所有的子类型
+? super E 表示可以传递E或者E所有的父类类型
+```
+
+#### 10.10 Set集合
+
+```java
+无序：存取顺序不一至
+不重复：可以去除重复
+无索引：没有带索引的方法，所以不能使用普通的for循环进行遍历，也不能通过索引来获取元素
+    
+Hashset:无序、不重复、无索引
+LinkedHashset:有序、不重复、无索引
+Treeset:可排序、不重复、无索引
+    
+Set接口中的方法基本上与Collection的API一致
+```
+
+![image-20241130205120987](./image-20241130205120987.png)
